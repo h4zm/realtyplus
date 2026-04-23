@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Property, PropertyType } from "@/lib/realty/types";
 import { formatEUR } from "@/lib/realty/store";
+import { useI18n } from "@/lib/realty/i18n";
 
 interface Props {
   open: boolean;
@@ -30,6 +31,7 @@ const emptyForm = {
 type FormState = typeof emptyForm;
 
 export function AdminPanel({ open, onClose, items, add, update, remove, reset }: Props) {
+  const { t } = useI18n();
   const [authed, setAuthed] = useState(false);
   const [pw, setPw] = useState("");
   const [err, setErr] = useState("");
@@ -45,6 +47,14 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
     }
   }, [open]);
 
+  useEffect(() => {
+    if (open) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   if (!open) return null;
 
   function tryLogin(e: React.FormEvent) {
@@ -53,7 +63,7 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
       setAuthed(true);
       setErr("");
     } else {
-      setErr("Incorrect password.");
+      setErr(t("admin.wrongPw"));
     }
   }
 
@@ -111,40 +121,35 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
   }
 
   const input =
-    "w-full rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20";
+    "w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20";
 
   return (
     <div className="fixed inset-0 z-[90] flex items-stretch justify-center bg-black/60 p-0 backdrop-blur-sm sm:p-6">
-      <div className="relative flex h-full w-full max-w-6xl flex-col overflow-hidden rounded-none bg-background shadow-lift sm:rounded-2xl">
-        <div className="flex items-center justify-between border-b border-border px-6 py-4">
-          <div>
-            <h2 className="text-lg font-bold tracking-tight">Admin Panel</h2>
-            <p className="text-xs text-muted-foreground">RealtyPlus property management</p>
+      <div className="relative flex h-full w-full max-w-6xl flex-col overflow-hidden bg-background shadow-lift sm:rounded-2xl">
+        <div className="flex items-center justify-between border-b border-border px-5 py-3 sm:px-6 sm:py-4">
+          <div className="min-w-0">
+            <h2 className="truncate text-base font-bold tracking-tight sm:text-lg">{t("admin.title")}</h2>
+            <p className="truncate text-xs text-muted-foreground">{t("admin.subtitle")}</p>
           </div>
           <button
             onClick={onClose}
-            className="grid h-9 w-9 place-items-center rounded-full bg-secondary hover:bg-muted"
-            aria-label="Close admin"
+            className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-full bg-secondary hover:bg-muted"
+            aria-label="Close"
           >
             ✕
           </button>
         </div>
 
         {!authed ? (
-          <div className="flex flex-1 items-center justify-center p-6">
-            <form
-              onSubmit={tryLogin}
-              className="w-full max-w-sm rounded-2xl bg-card p-7 shadow-soft"
-            >
-              <h3 className="text-xl font-bold">Restricted access</h3>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Enter the admin password to continue.
-              </p>
+          <div className="flex flex-1 items-center justify-center p-5 sm:p-6">
+            <form onSubmit={tryLogin} className="w-full max-w-sm rounded-2xl bg-card p-6 shadow-soft sm:p-7">
+              <h3 className="text-xl font-bold">{t("admin.restricted")}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{t("admin.enterPw")}</p>
               <input
                 type="password"
                 value={pw}
                 onChange={(e) => setPw(e.target.value)}
-                placeholder="Password"
+                placeholder={t("admin.password")}
                 className={input + " mt-5"}
                 autoFocus
               />
@@ -153,29 +158,26 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
                 type="submit"
                 className="mt-4 w-full rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
               >
-                Unlock
+                {t("admin.unlock")}
               </button>
             </form>
           </div>
         ) : (
           <div className="grid flex-1 overflow-hidden md:grid-cols-2">
             {/* Form */}
-            <form
-              onSubmit={submit}
-              className="flex flex-col gap-3 overflow-y-auto border-r border-border p-6"
-            >
+            <form onSubmit={submit} className="flex flex-col gap-3 overflow-y-auto border-b border-border p-5 sm:p-6 md:border-b-0 md:border-r">
               <h3 className="text-base font-semibold">
-                {editingId ? "Edit property" : "Add new property"}
+                {editingId ? t("admin.edit") : t("admin.add")}
               </h3>
               <input
-                placeholder="Title"
+                placeholder={t("admin.t.title")}
                 value={form.title}
                 onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
                 className={input}
                 required
               />
               <input
-                placeholder="Location"
+                placeholder={t("admin.t.location")}
                 value={form.location}
                 onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))}
                 className={input}
@@ -184,7 +186,7 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
               <div className="grid grid-cols-2 gap-3">
                 <input
                   type="number"
-                  placeholder="Price (EUR)"
+                  placeholder={t("admin.t.price")}
                   value={form.price}
                   onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
                   className={input}
@@ -192,43 +194,23 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
                 />
                 <select
                   value={form.type}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, type: e.target.value as PropertyType }))
-                  }
+                  onChange={(e) => setForm((f) => ({ ...f, type: e.target.value as PropertyType }))}
                   className={input}
                 >
-                  <option value="apartment">Apartment</option>
-                  <option value="villa">Villa</option>
-                  <option value="penthouse">Penthouse</option>
-                  <option value="townhouse">Townhouse</option>
-                  <option value="studio">Studio</option>
+                  <option value="apartment">{t("filter.apartment")}</option>
+                  <option value="villa">{t("filter.villa")}</option>
+                  <option value="penthouse">{t("filter.penthouse")}</option>
+                  <option value="townhouse">{t("filter.townhouse")}</option>
+                  <option value="studio">{t("filter.studio")}</option>
                 </select>
               </div>
               <div className="grid grid-cols-3 gap-3">
-                <input
-                  type="number"
-                  placeholder="Beds"
-                  value={form.bedrooms}
-                  onChange={(e) => setForm((f) => ({ ...f, bedrooms: e.target.value }))}
-                  className={input}
-                />
-                <input
-                  type="number"
-                  placeholder="Baths"
-                  value={form.bathrooms}
-                  onChange={(e) => setForm((f) => ({ ...f, bathrooms: e.target.value }))}
-                  className={input}
-                />
-                <input
-                  type="number"
-                  placeholder="Area m²"
-                  value={form.area}
-                  onChange={(e) => setForm((f) => ({ ...f, area: e.target.value }))}
-                  className={input}
-                />
+                <input type="number" placeholder={t("admin.t.beds")} value={form.bedrooms} onChange={(e) => setForm((f) => ({ ...f, bedrooms: e.target.value }))} className={input} />
+                <input type="number" placeholder={t("admin.t.baths")} value={form.bathrooms} onChange={(e) => setForm((f) => ({ ...f, bathrooms: e.target.value }))} className={input} />
+                <input type="number" placeholder={t("admin.t.area")} value={form.area} onChange={(e) => setForm((f) => ({ ...f, area: e.target.value }))} className={input} />
               </div>
               <textarea
-                placeholder="Description"
+                placeholder={t("admin.t.desc")}
                 value={form.description}
                 onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
                 className={input + " min-h-[100px] resize-y"}
@@ -239,11 +221,11 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
                   checked={form.featured}
                   onChange={(e) => setForm((f) => ({ ...f, featured: e.target.checked }))}
                 />
-                Mark as featured
+                {t("admin.featured")}
               </label>
 
               <div>
-                <label className="text-sm font-medium">Images</label>
+                <label className="text-sm font-medium">{t("admin.images")}</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -255,19 +237,10 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
                   <div className="mt-3 grid grid-cols-4 gap-2">
                     {form.images.map((src, i) => (
                       <div key={i} className="relative">
-                        <img
-                          src={src}
-                          alt={`upload ${i + 1}`}
-                          className="h-16 w-full rounded-md object-cover"
-                        />
+                        <img src={src} alt="" className="h-16 w-full rounded-md object-cover" />
                         <button
                           type="button"
-                          onClick={() =>
-                            setForm((f) => ({
-                              ...f,
-                              images: f.images.filter((_, idx) => idx !== i),
-                            }))
-                          }
+                          onClick={() => setForm((f) => ({ ...f, images: f.images.filter((_, idx) => idx !== i) }))}
                           className="absolute -right-1 -top-1 grid h-5 w-5 place-items-center rounded-full bg-cta text-[10px] text-cta-foreground"
                         >
                           ✕
@@ -283,7 +256,7 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
                   type="submit"
                   className="flex-1 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
                 >
-                  {editingId ? "Save changes" : "Add property"}
+                  {editingId ? t("admin.save") : t("admin.addBtn")}
                 </button>
                 {editingId && (
                   <button
@@ -294,59 +267,46 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
                     }}
                     className="rounded-full border border-border px-5 py-2.5 text-sm font-semibold hover:bg-secondary"
                   >
-                    Cancel
+                    {t("admin.cancel")}
                   </button>
                 )}
               </div>
               <button
                 type="button"
                 onClick={() => {
-                  if (confirm("Reset all properties to defaults? This will erase your changes."))
-                    reset();
+                  if (confirm(t("admin.confirmReset"))) reset();
                 }}
                 className="text-xs text-muted-foreground underline-offset-2 hover:underline"
               >
-                Reset to default seed
+                {t("admin.reset")}
               </button>
             </form>
 
             {/* List */}
-            <div className="overflow-y-auto p-6">
+            <div className="overflow-y-auto p-5 sm:p-6">
               <h3 className="text-base font-semibold">
-                Properties <span className="text-muted-foreground">({items.length})</span>
+                {t("admin.list")} <span className="text-muted-foreground">({items.length})</span>
               </h3>
               <div className="mt-4 space-y-3">
                 {items.map((p) => (
-                  <div
-                    key={p.id}
-                    className="flex gap-3 rounded-xl border border-border bg-card p-3 shadow-soft"
-                  >
-                    <img
-                      src={p.images[0]}
-                      alt={p.title}
-                      className="h-16 w-20 flex-shrink-0 rounded-md object-cover"
-                    />
+                  <div key={p.id} className="flex gap-3 rounded-xl border border-border bg-card p-3 shadow-soft">
+                    <img src={p.images[0]} alt={p.title} className="h-16 w-20 flex-shrink-0 rounded-md object-cover" />
                     <div className="min-w-0 flex-1">
                       <div className="line-clamp-1 text-sm font-semibold">{p.title}</div>
                       <div className="line-clamp-1 text-xs text-muted-foreground">{p.location}</div>
-                      <div className="mt-1 text-sm font-bold text-primary">
-                        {formatEUR(p.price)}
-                      </div>
+                      <div className="mt-1 text-sm font-bold text-primary">{formatEUR(p.price)}</div>
                     </div>
                     <div className="flex flex-col gap-1">
-                      <button
-                        onClick={() => startEdit(p)}
-                        className="rounded-md bg-secondary px-3 py-1 text-xs font-semibold hover:bg-muted"
-                      >
-                        Edit
+                      <button onClick={() => startEdit(p)} className="rounded-md bg-secondary px-3 py-1 text-xs font-semibold hover:bg-muted">
+                        {t("admin.editBtn")}
                       </button>
                       <button
                         onClick={() => {
-                          if (confirm(`Delete "${p.title}"?`)) remove(p.id);
+                          if (confirm(`${t("admin.confirmDelete")} "${p.title}"?`)) remove(p.id);
                         }}
                         className="rounded-md bg-cta px-3 py-1 text-xs font-semibold text-cta-foreground hover:bg-cta-hover"
                       >
-                        Delete
+                        {t("admin.deleteBtn")}
                       </button>
                     </div>
                   </div>
