@@ -13,28 +13,34 @@ import { Reveal } from "@/components/realty/Reveal";
 import { useProperties } from "@/lib/realty/store";
 import { applyFilters, defaultFilters } from "@/lib/realty/filter";
 import type { Filters, Property } from "@/lib/realty/types";
+import { I18nProvider, useI18n } from "@/lib/realty/i18n";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "RealtyPlus — Premium Real Estate in Spain" },
+      { title: "RealtyPlus — Inmobiliaria Premium en España" },
       {
         name: "description",
         content:
-          "Discover luxury apartments, villas and homes in Spain with RealtyPlus, Vitoria-Gasteiz's trusted premium real estate agency.",
+          "Descubre apartamentos de lujo, villas y hogares en España con RealtyPlus, la agencia inmobiliaria premium de Vitoria-Gasteiz.",
       },
-      { property: "og:title", content: "RealtyPlus — Premium Real Estate in Spain" },
+      { property: "og:title", content: "RealtyPlus — Inmobiliaria Premium en España" },
       {
         property: "og:description",
-        content: "Curated luxury properties across Spain. Trusted local agency, 24h response.",
+        content: "Propiedades de lujo seleccionadas en toda España. Agencia local de confianza, respuesta en 24h.",
       },
       { property: "og:type", content: "website" },
     ],
   }),
-  component: Home,
+  component: () => (
+    <I18nProvider>
+      <Home />
+    </I18nProvider>
+  ),
 });
 
 function Home() {
+  const { t } = useI18n();
   const { items, add, update, remove, reset } = useProperties();
   const [filters, setFilters] = useState<Filters>(defaultFilters);
   const [active, setActive] = useState<Property | null>(null);
@@ -54,32 +60,32 @@ function Home() {
       <Hero onSearch={(q) => patchFilters({ query: q })} />
       <TrustStrip />
 
-      {/* Featured preview */}
-      <section className="py-24">
-        <div className="mx-auto max-w-7xl px-6">
+      {/* Featured */}
+      <section className="py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <Reveal>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <span className="text-xs font-semibold uppercase tracking-widest text-primary">
-                  Handpicked
+                  {t("featured.eyebrow")}
                 </span>
-                <h2 className="mt-2 text-balance text-4xl font-bold tracking-tight md:text-5xl">
-                  Featured Properties
+                <h2 className="mt-2 text-balance text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+                  {t("featured.title")}
                 </h2>
                 <p className="mt-3 max-w-xl text-foreground/70">
-                  A curated selection of the most sought-after homes from our portfolio.
+                  {t("featured.subtitle")}
                 </p>
               </div>
               <a
                 href="#properties"
                 className="inline-flex items-center justify-center rounded-full border border-border bg-background px-5 py-2.5 text-sm font-semibold text-foreground transition-colors hover:bg-secondary"
               >
-                View All Properties →
+                {t("featured.viewAll")}
               </a>
             </div>
           </Reveal>
 
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
             {featured.map((p, i) => (
               <Reveal key={p.id} delay={i * 100}>
                 <PropertyCard property={p} onClick={() => setActive(p)} />
@@ -91,42 +97,40 @@ function Home() {
 
       <About />
 
-      {/* Full grid + filters */}
-      <section id="properties" className="bg-background py-24">
-        <div className="mx-auto max-w-7xl px-6">
+      {/* Full grid */}
+      <section id="properties" className="bg-background py-16 sm:py-24">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6">
           <Reveal>
             <div className="text-center">
               <span className="text-xs font-semibold uppercase tracking-widest text-primary">
-                Browse the catalogue
+                {t("props.eyebrow")}
               </span>
-              <h2 className="mt-3 text-balance text-4xl font-bold tracking-tight md:text-5xl">
-                All Properties
+              <h2 className="mt-3 text-balance text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+                {t("props.title")}
               </h2>
               <p className="mx-auto mt-4 max-w-2xl text-foreground/70">
-                Search, filter and sort across our full inventory.
+                {t("props.subtitle")}
               </p>
             </div>
           </Reveal>
 
-          <div className="mt-10">
+          <div className="mt-8 sm:mt-10">
             <FilterBar filters={filters} onChange={patchFilters} resultCount={filtered.length} />
           </div>
 
           {filtered.length === 0 ? (
-            <div className="mt-16 rounded-2xl bg-secondary/40 p-12 text-center">
-              <h3 className="text-xl font-semibold">No properties match your filters</h3>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Try adjusting your search or clearing some filters.
-              </p>
+            <div className="mt-12 rounded-2xl bg-secondary/40 p-10 text-center sm:mt-16 sm:p-12">
+              <h3 className="text-xl font-semibold">{t("props.empty.title")}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{t("props.empty.body")}</p>
               <button
                 onClick={() => setFilters(defaultFilters)}
                 className="mt-5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary/90"
               >
-                Reset filters
+                {t("props.empty.reset")}
               </button>
             </div>
           ) : (
-            <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid gap-5 sm:mt-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
               {filtered.map((p, i) => (
                 <Reveal key={p.id} delay={Math.min(i, 6) * 60}>
                   <PropertyCard property={p} onClick={() => setActive(p)} />
