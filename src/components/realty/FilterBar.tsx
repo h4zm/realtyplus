@@ -66,7 +66,7 @@ export function FilterBar({ filters, onChange, resultCount }: Props) {
             ))}
           </select>
         </div>
-        <div className="md:col-span-1.5">
+        <div className="md:col-span-2">
           <select
             value={filters.bedrooms}
             onChange={(e) => onChange({ bedrooms: e.target.value as Filters["bedrooms"] })}
@@ -79,7 +79,7 @@ export function FilterBar({ filters, onChange, resultCount }: Props) {
             ))}
           </select>
         </div>
-        <div className="md:col-span-1.5">
+        <div className="md:col-span-1">
           <select
             value={filters.sort}
             onChange={(e) => onChange({ sort: e.target.value as Filters["sort"] })}
