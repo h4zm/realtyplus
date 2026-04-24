@@ -1,9 +1,10 @@
-import aboutImg from "@/assets/about-team.jpg";
 import { Reveal } from "./Reveal";
 import { useI18n } from "@/lib/realty/i18n";
+import { useAssets } from "@/lib/realty/assets";
 
 export function About() {
   const { t } = useI18n();
+  const { about } = useAssets();
   const stats = [
     { value: "320+", label: t("about.stat1") },
     { value: "1.4k", label: t("about.stat2") },
@@ -16,7 +17,7 @@ export function About() {
         <Reveal>
           <div className="overflow-hidden rounded-2xl shadow-lift sm:rounded-3xl">
             <img
-              src={aboutImg}
+              src={about}
               alt="Equipo de RealtyPlus en su oficina de Vitoria-Gasteiz"
               loading="lazy"
               width={1024}

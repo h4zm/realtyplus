@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { LangToggle, useI18n } from "@/lib/realty/i18n";
 import { ThemeToggle } from "@/lib/realty/theme";
+import { useAssets } from "@/lib/realty/assets";
 
 export function Navbar({ onAdmin }: { onAdmin: () => void }) {
   const { t } = useI18n();
+  const { logo } = useAssets();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -31,9 +33,17 @@ export function Navbar({ onAdmin }: { onAdmin: () => void }) {
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
         <a href="#top" className="flex items-center gap-2">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-primary text-primary-foreground font-bold">
-            R
-          </span>
+          {logo ? (
+            <img
+              src={logo}
+              alt="RealtyPlus"
+              className="h-9 w-9 rounded-xl object-cover shadow-soft"
+            />
+          ) : (
+            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-primary text-primary-foreground font-bold">
+              R
+            </span>
+          )}
           <span
             className={`text-base font-semibold tracking-tight sm:text-lg ${onLight ? "text-foreground" : "text-white drop-shadow"}`}
           >
