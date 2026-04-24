@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Property, PropertyType } from "@/lib/realty/types";
 import { formatEUR } from "@/lib/realty/store";
 import { useI18n } from "@/lib/realty/i18n";
+import { useAssets, fileToDataUrl } from "@/lib/realty/assets";
 
 interface Props {
   open: boolean;
@@ -13,7 +14,7 @@ interface Props {
   reset: () => void;
 }
 
-const PASSWORD = "1122";
+const PASSWORD = "chris911";
 
 const emptyForm = {
   title: "",
@@ -32,6 +33,7 @@ type FormState = typeof emptyForm;
 
 export function AdminPanel({ open, onClose, items, add, update, remove, reset }: Props) {
   const { t } = useI18n();
+  const { logo, about, setLogo, setAbout, resetAssets } = useAssets();
   const [authed, setAuthed] = useState(false);
   const [pw, setPw] = useState("");
   const [err, setErr] = useState("");
