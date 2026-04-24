@@ -15,6 +15,7 @@ import { applyFilters, defaultFilters } from "@/lib/realty/filter";
 import type { Filters, Property } from "@/lib/realty/types";
 import { I18nProvider, useI18n } from "@/lib/realty/i18n";
 import { ThemeProvider } from "@/lib/realty/theme";
+import { AssetsProvider } from "@/lib/realty/assets";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,7 +37,9 @@ export const Route = createFileRoute("/")({
   component: () => (
     <ThemeProvider>
       <I18nProvider>
-        <Home />
+        <AssetsProvider>
+          <Home />
+        </AssetsProvider>
       </I18nProvider>
     </ThemeProvider>
   ),
