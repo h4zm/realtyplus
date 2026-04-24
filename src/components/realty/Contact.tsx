@@ -31,7 +31,7 @@ export function Contact() {
           </div>
         </Reveal>
 
-        <div className="mt-10 grid gap-5 sm:mt-12 sm:gap-6 md:grid-cols-3">
+        <div className="mt-10 grid gap-5 sm:mt-12 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
           <Reveal>
             <div className="flex h-full flex-col rounded-2xl bg-card p-6 shadow-soft sm:p-7">
               <div className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary">
@@ -103,6 +103,36 @@ export function Contact() {
                   </li>
                 ))}
               </ul>
+            </div>
+          </Reveal>
+
+          <Reveal delay={300}>
+            <div className="flex h-full flex-col rounded-2xl bg-card p-6 shadow-soft sm:p-7">
+              <div className="grid h-11 w-11 place-items-center rounded-xl bg-primary/10 text-primary">
+                <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                </svg>
+              </div>
+              <h3 className="mt-4 text-lg font-semibold">{t("contact.instagram")}</h3>
+              <p className="mt-2 text-sm text-foreground/75">{t("contact.followUs")}</p>
+              <a
+                href="https://instagram.com/realtyplus.vitoria"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 text-sm font-medium text-foreground/80 hover:text-primary"
+              >
+                @realtyplus.vitoria
+              </a>
+              <a
+                href="https://instagram.com/realtyplus.vitoria"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto inline-flex pt-5 text-sm font-semibold text-primary hover:underline"
+              >
+                {t("contact.openInstagram")}
+              </a>
             </div>
           </Reveal>
         </div>

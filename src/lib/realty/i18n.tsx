@@ -157,6 +157,9 @@ const dict: Dict = {
   "contact.callUs": { es: "Llámanos", en: "Call us" },
   "contact.whatsappBtn": { es: "Chatear por WhatsApp", en: "Chat on WhatsApp" },
   "contact.email": { es: "Email", en: "Email" },
+  "contact.instagram": { es: "Instagram", en: "Instagram" },
+  "contact.followUs": { es: "Síguenos", en: "Follow us" },
+  "contact.openInstagram": { es: "Abrir Instagram →", en: "Open Instagram →" },
   "footer.rights": { es: "Todos los derechos reservados.", en: "All rights reserved." },
 
   // Admin
