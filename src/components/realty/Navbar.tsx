@@ -32,23 +32,20 @@ export function Navbar({ onAdmin }: { onAdmin: () => void }) {
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
-        <a href="#top" className="flex items-center gap-2">
-          {logo ? (
-            <img
-              src={logo}
-              alt="RealtyPlus"
-              className="h-9 w-9 rounded-xl object-cover shadow-soft"
-            />
-          ) : (
-            <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-primary text-primary-foreground font-bold">
-              R
-            </span>
-          )}
-          <span
-            className={`text-base font-semibold tracking-tight sm:text-lg ${onLight ? "text-foreground" : "text-white drop-shadow"}`}
-          >
-            RealtyPlus
-          </span>
+        <a
+          href="#top"
+          aria-label="RealtyPlus — Inicio"
+          className={`flex items-center transition-all ${
+            onLight
+              ? ""
+              : "rounded-xl bg-white/95 px-2.5 py-1 shadow-soft backdrop-blur"
+          }`}
+        >
+          <img
+            src={logo}
+            alt="RealtyPlus"
+            className="h-8 w-auto object-contain sm:h-9"
+          />
         </a>
 
         <nav className="hidden items-center gap-7 md:flex">

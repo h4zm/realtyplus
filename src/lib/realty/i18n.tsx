@@ -204,7 +204,7 @@ const dict: Dict = {
   "admin.logoCurrent": { es: "Logo actual", en: "Current logo" },
   "admin.logoDefault": { es: "Por defecto", en: "Default" },
   "admin.uploadLogo": { es: "Subir logo", en: "Upload logo" },
-  "admin.removeLogo": { es: "Quitar logo", en: "Remove logo" },
+  "admin.removeLogo": { es: "Restablecer logo por defecto", en: "Reset to default logo" },
   "admin.aboutImg": { es: "Imagen de la sección Nosotros", en: "About section image" },
   "admin.uploadAbout": { es: "Subir imagen", en: "Upload image" },
   "admin.resetAbout": { es: "Restablecer imagen", en: "Reset image" },

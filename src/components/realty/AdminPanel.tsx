@@ -33,7 +33,7 @@ type FormState = typeof emptyForm;
 
 export function AdminPanel({ open, onClose, items, add, update, remove, reset }: Props) {
   const { t } = useI18n();
-  const { logo, about, setLogo, setAbout, resetAssets } = useAssets();
+  const { logo, about, setLogo, setAbout, resetLogo, resetAssets } = useAssets();
   const [authed, setAuthed] = useState(false);
   const [pw, setPw] = useState("");
   const [err, setErr] = useState("");
@@ -293,17 +293,8 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
                   <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                     {t("admin.logo")}
                   </label>
-                  <div className="mt-2 flex items-center gap-3">
-                    {logo ? (
-                      <img src={logo} alt="" className="h-12 w-12 rounded-xl object-cover shadow-soft" />
-                    ) : (
-                      <span className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-primary text-base font-bold text-primary-foreground">
-                        R
-                      </span>
-                    )}
-                    <span className="text-xs text-muted-foreground">
-                      {logo ? t("admin.logoCurrent") : t("admin.logoDefault")}
-                    </span>
+                  <div className="mt-2 flex items-center gap-3 rounded-xl bg-white p-2 shadow-soft">
+                    <img src={logo} alt="" className="h-10 w-auto object-contain" />
                   </div>
                   <input
                     type="file"
@@ -316,15 +307,13 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
                     }}
                     className="mt-3 block w-full text-xs file:mr-3 file:rounded-full file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-primary-foreground hover:file:bg-primary/90"
                   />
-                  {logo && (
-                    <button
-                      type="button"
-                      onClick={() => setLogo(null)}
-                      className="mt-2 text-xs text-cta underline-offset-2 hover:underline"
-                    >
-                      {t("admin.removeLogo")}
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => resetLogo()}
+                    className="mt-2 text-xs text-muted-foreground underline-offset-2 hover:underline"
+                  >
+                    {t("admin.removeLogo")}
+                  </button>
                 </div>
 
                 {/* About image */}

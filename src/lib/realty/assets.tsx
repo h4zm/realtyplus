@@ -1,21 +1,23 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import aboutImg from "@/assets/about-team.jpg";
+import defaultLogo from "@/assets/realtyplus-logo.png";
 
 const KEY = "realtyplus.assets.v1";
 
 interface AssetState {
-  logo: string | null; // data URL or null = default "R" badge
+  logo: string; // data URL or default brand logo
   about: string; // data URL or default imported asset
 }
 
 const defaults: AssetState = {
-  logo: null,
+  logo: defaultLogo,
   about: aboutImg,
 };
 
 interface AssetCtx extends AssetState {
-  setLogo: (dataUrl: string | null) => void;
+  setLogo: (dataUrl: string) => void;
   setAbout: (dataUrl: string) => void;
+  resetLogo: () => void;
   resetAssets: () => void;
 }
 
@@ -30,7 +32,7 @@ export function AssetsProvider({ children }: { children: ReactNode }) {
       if (!raw) return;
       const parsed = JSON.parse(raw) as Partial<AssetState>;
       setState({
-        logo: typeof parsed.logo === "string" ? parsed.logo : null,
+        logo: typeof parsed.logo === "string" && parsed.logo ? parsed.logo : defaultLogo,
         about: typeof parsed.about === "string" && parsed.about ? parsed.about : aboutImg,
       });
     } catch {
@@ -48,17 +50,23 @@ export function AssetsProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const setLogo = useCallback(
-    (dataUrl: string | null) => persist({ ...state, logo: dataUrl }),
+    (dataUrl: string) => persist({ ...state, logo: dataUrl }),
     [persist, state],
   );
   const setAbout = useCallback(
     (dataUrl: string) => persist({ ...state, about: dataUrl }),
     [persist, state],
   );
+  const resetLogo = useCallback(
+    () => persist({ ...state, logo: defaultLogo }),
+    [persist, state],
+  );
   const resetAssets = useCallback(() => persist(defaults), [persist]);
 
   return (
-    <Ctx.Provider value={{ ...state, setLogo, setAbout, resetAssets }}>{children}</Ctx.Provider>
+    <Ctx.Provider value={{ ...state, setLogo, setAbout, resetLogo, resetAssets }}>
+      {children}
+    </Ctx.Provider>
   );
 }
 
