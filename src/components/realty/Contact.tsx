@@ -149,9 +149,7 @@ export function Footer() {
     <footer className="border-t border-border bg-background py-8 sm:py-10">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 text-xs text-muted-foreground sm:flex-row sm:px-6 sm:text-sm">
         <div className="flex items-center gap-3">
-          <div className="rounded-lg bg-white px-2 py-1 shadow-soft">
-            <img src={logo} alt="RealtyPlus" className="h-8 w-auto object-contain sm:h-9" />
-          </div>
+          <img src={logo} alt="RealtyPlus" className="h-10 w-auto object-contain sm:h-12" />
           <span>· Vitoria-Gasteiz</span>
         </div>
         <div className="text-center sm:text-right">© {new Date().getFullYear()} RealtyPlus. {t("footer.rights")}</div>

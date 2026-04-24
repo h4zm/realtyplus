@@ -35,16 +35,14 @@ export function Navbar({ onAdmin }: { onAdmin: () => void }) {
         <a
           href="#top"
           aria-label="RealtyPlus — Inicio"
-          className={`flex items-center transition-all ${
-            onLight
-              ? ""
-              : "rounded-xl bg-white/95 px-3 py-1.5 shadow-soft backdrop-blur"
-          }`}
+          className="flex items-center"
         >
           <img
             src={logo}
             alt="RealtyPlus"
-            className="h-12 w-auto object-contain sm:h-14"
+            className={`h-14 w-auto object-contain transition-all sm:h-16 ${
+              onLight ? "" : "drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]"
+            }`}
           />
         </a>
 

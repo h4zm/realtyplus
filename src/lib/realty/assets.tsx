@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import aboutImg from "@/assets/about-team.jpg";
-import defaultLogo from "@/assets/realtyplus-logo.png";
+import defaultLogo from "@/assets/realtyplus-logo-transparent.png";
 
 const KEY = "realtyplus.assets.v1";
 
