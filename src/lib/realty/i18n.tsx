@@ -193,6 +193,21 @@ const dict: Dict = {
     en: "Reset all properties to defaults? This will erase your changes.",
   },
   "admin.confirmDelete": { es: "¿Borrar", en: "Delete" },
+
+  // Admin — branding/assets
+  "admin.branding": { es: "Branding del sitio", en: "Site branding" },
+  "admin.brandingHint": {
+    es: "Personaliza el logo de la cabecera y la imagen de la sección Nosotros.",
+    en: "Customize the header logo and the About section image.",
+  },
+  "admin.logo": { es: "Logo (la 'R' azul)", en: "Logo (the blue 'R')" },
+  "admin.logoCurrent": { es: "Logo actual", en: "Current logo" },
+  "admin.logoDefault": { es: "Por defecto", en: "Default" },
+  "admin.uploadLogo": { es: "Subir logo", en: "Upload logo" },
+  "admin.removeLogo": { es: "Quitar logo", en: "Remove logo" },
+  "admin.aboutImg": { es: "Imagen de la sección Nosotros", en: "About section image" },
+  "admin.uploadAbout": { es: "Subir imagen", en: "Upload image" },
+  "admin.resetAbout": { es: "Restablecer imagen", en: "Reset image" },
 };
 
 interface I18nCtx {

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { Property, PropertyType } from "@/lib/realty/types";
 import { formatEUR } from "@/lib/realty/store";
 import { useI18n } from "@/lib/realty/i18n";
+import { useAssets, fileToDataUrl } from "@/lib/realty/assets";
 
 interface Props {
   open: boolean;
@@ -13,7 +14,7 @@ interface Props {
   reset: () => void;
 }
 
-const PASSWORD = "1122";
+const PASSWORD = "chris911";
 
 const emptyForm = {
   title: "",
@@ -32,6 +33,7 @@ type FormState = typeof emptyForm;
 
 export function AdminPanel({ open, onClose, items, add, update, remove, reset }: Props) {
   const { t } = useI18n();
+  const { logo, about, setLogo, setAbout, resetAssets } = useAssets();
   const [authed, setAuthed] = useState(false);
   const [pw, setPw] = useState("");
   const [err, setErr] = useState("");
@@ -280,6 +282,79 @@ export function AdminPanel({ open, onClose, items, add, update, remove, reset }:
               >
                 {t("admin.reset")}
               </button>
+
+              {/* Branding / site assets */}
+              <div className="mt-6 rounded-2xl border border-border bg-secondary/40 p-4">
+                <h4 className="text-sm font-semibold">{t("admin.branding")}</h4>
+                <p className="mt-1 text-xs text-muted-foreground">{t("admin.brandingHint")}</p>
+
+                {/* Logo */}
+                <div className="mt-4">
+                  <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    {t("admin.logo")}
+                  </label>
+                  <div className="mt-2 flex items-center gap-3">
+                    {logo ? (
+                      <img src={logo} alt="" className="h-12 w-12 rounded-xl object-cover shadow-soft" />
+                    ) : (
+                      <span className="grid h-12 w-12 place-items-center rounded-xl bg-gradient-primary text-base font-bold text-primary-foreground">
+                        R
+                      </span>
+                    )}
+                    <span className="text-xs text-muted-foreground">
+                      {logo ? t("admin.logoCurrent") : t("admin.logoDefault")}
+                    </span>
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      setLogo(await fileToDataUrl(file));
+                      e.target.value = "";
+                    }}
+                    className="mt-3 block w-full text-xs file:mr-3 file:rounded-full file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-primary-foreground hover:file:bg-primary/90"
+                  />
+                  {logo && (
+                    <button
+                      type="button"
+                      onClick={() => setLogo(null)}
+                      className="mt-2 text-xs text-cta underline-offset-2 hover:underline"
+                    >
+                      {t("admin.removeLogo")}
+                    </button>
+                  )}
+                </div>
+
+                {/* About image */}
+                <div className="mt-5">
+                  <label className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                    {t("admin.aboutImg")}
+                  </label>
+                  <div className="mt-2">
+                    <img src={about} alt="" className="h-24 w-full rounded-lg object-cover shadow-soft" />
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      setAbout(await fileToDataUrl(file));
+                      e.target.value = "";
+                    }}
+                    className="mt-3 block w-full text-xs file:mr-3 file:rounded-full file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-primary-foreground hover:file:bg-primary/90"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => resetAssets()}
+                    className="mt-2 text-xs text-muted-foreground underline-offset-2 hover:underline"
+                  >
+                    {t("admin.resetAbout")}
+                  </button>
+                </div>
+              </div>
             </form>
 
             {/* List */}
