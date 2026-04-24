@@ -38,13 +38,13 @@ export function Navbar({ onAdmin }: { onAdmin: () => void }) {
           className={`flex items-center transition-all ${
             onLight
               ? ""
-              : "rounded-xl bg-white/95 px-2.5 py-1 shadow-soft backdrop-blur"
+              : "rounded-xl bg-white/95 px-3 py-1.5 shadow-soft backdrop-blur"
           }`}
         >
           <img
             src={logo}
             alt="RealtyPlus"
-            className="h-8 w-auto object-contain sm:h-9"
+            className="h-12 w-auto object-contain sm:h-14"
           />
         </a>
 
