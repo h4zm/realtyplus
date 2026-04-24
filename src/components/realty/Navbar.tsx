@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { LangToggle, useI18n } from "@/lib/realty/i18n";
+import { ThemeToggle } from "@/lib/realty/theme";
 
 export function Navbar({ onAdmin }: { onAdmin: () => void }) {
   const { t } = useI18n();
@@ -61,6 +62,7 @@ export function Navbar({ onAdmin }: { onAdmin: () => void }) {
             {t("nav.admin")}
           </button>
           <LangToggle className={onLight ? "text-foreground/80" : "text-white/90"} />
+          <ThemeToggle className={onLight ? "text-foreground/80" : "text-white/90"} />
           <a
             href="https://wa.me/34676297766"
             target="_blank"
@@ -72,6 +74,7 @@ export function Navbar({ onAdmin }: { onAdmin: () => void }) {
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
+          <ThemeToggle className={onLight ? "text-foreground/80" : "text-white/90"} />
           <LangToggle className={onLight ? "text-foreground/80" : "text-white/90"} />
           <button
             aria-label={t("nav.menu")}
