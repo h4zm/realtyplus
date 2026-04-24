@@ -1,5 +1,6 @@
 import { Reveal } from "./Reveal";
 import { useI18n } from "@/lib/realty/i18n";
+import { useAssets } from "@/lib/realty/assets";
 
 const phones = [
   { label: "945 024 322", tel: "+34945024322" },
@@ -143,14 +144,14 @@ export function Contact() {
 
 export function Footer() {
   const { t } = useI18n();
+  const { logo } = useAssets();
   return (
     <footer className="border-t border-border bg-background py-8 sm:py-10">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-5 text-xs text-muted-foreground sm:flex-row sm:px-6 sm:text-sm">
-        <div className="flex items-center gap-2">
-          <span className="grid h-7 w-7 place-items-center rounded-lg bg-gradient-primary text-xs font-bold text-primary-foreground">
-            R
-          </span>
-          <span className="font-semibold text-foreground">RealtyPlus</span>
+        <div className="flex items-center gap-3">
+          <div className="rounded-lg bg-white px-2 py-1 shadow-soft">
+            <img src={logo} alt="RealtyPlus" className="h-8 w-auto object-contain sm:h-9" />
+          </div>
           <span>· Vitoria-Gasteiz</span>
         </div>
         <div className="text-center sm:text-right">© {new Date().getFullYear()} RealtyPlus. {t("footer.rights")}</div>
